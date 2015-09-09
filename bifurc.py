@@ -1,4 +1,9 @@
-# x = 1234567890 this would take about a year using an exhaustive search with these epsilons.  Sub second using the binary search in 57 guesses.
+# Program to gues the square root of a number using iteration.
+# x = 1234567890 this would take about a year using an exhaustive 
+# search with these epsilons.  Sub second using the binary search in 57 guesses.
+#
+# Mark Addinall - September 2015
+# MIT Computer Science - Python
 
 
 x = 25

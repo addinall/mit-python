@@ -1,13 +1,21 @@
+# BRUTE FORCE iterative method to approximate the 
+# square root of a number
+#
+# Mark Addinall - September 2015
+# MIT Computer Science - Python
+
 x = 25
 epsilon = 0.01
 step = epsilon**2
 guesses = 0
 ans = 0.0
 
-while (abs(ans**2 - x)) >= epsilon and ans <= x:
-	ans += step
-	guesses += 1
+while (abs(ans**2 - x)) >= epsilon and ans <= x:     	# basicall bludgen through a finite
+	ans += step					# set of real numbers to see if we
+	guesses += 1					# can get close to an approximation
+
 print('Guesses : ' + str(guesses))
+
 if abs(ans**2 - x) >= epsilon:
 	print('Failed on root of ' + str(x))
 else:

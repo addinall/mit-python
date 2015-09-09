@@ -1,5 +1,9 @@
 # ask the user to guess a SECRET number that the computer
 # will magically guess!  Simple demonstration of binary searching
+#
+#
+# Mark Addinall - September 2015
+# MIT Computer Science - Python
 
 valid_input = 'hlc'
 ch = ''

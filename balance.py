@@ -1,7 +1,7 @@
 # balance.py
 #
 # A little program that computes a decreasing balance of a compound
-# debt over a period of 12 months
+# debt over a period of 12 months.  Iterative calculation.
 #
 # Mark Addinall.  MIT CompSci 6.00/1X
 #

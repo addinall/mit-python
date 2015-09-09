@@ -1,3 +1,9 @@
+# Just some little base number swaps
+#
+#
+# Mark Addinall - September 2015
+# MIT Computer Science - Python
+
 # dec to bin
 num = 302 
 result = ''

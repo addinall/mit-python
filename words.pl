@@ -3,12 +3,12 @@
 #  Mark Addinall - MIT CompSci
 #
 def longest_word(s):
-	"""	Traverse a string and return the longest
+	'''	Traverse a string and return the longest
 		sub-string contained that is in alphabetical
 		order.  Return the FIRST in case of a tie,
 		not the lexical winner.
 		M. Addinall
-		MIT - edX 6.001     """
+		MIT - edX 6.001    '''
 
 	# keep a data frame of the words found
 	words=[]
@@ -44,6 +44,9 @@ def longest_word(s):
 	# words.sort()
  	return max(words, key=len)
 
+
+# test it
+	
 s = 'abcdefghijklmnopqrstuvwxyz'
 s = 'slzscsllabjx'
 print longest_word(s)
