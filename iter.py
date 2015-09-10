@@ -1,3 +1,8 @@
+# iter.py
+# Mark Addinall - Sept 2015
+# MIT Computer Science - Python
+
+
 def iterPower(base, exp):
 	''' 	just a little iterative function to return an exponant.
 		float or in in
