@@ -49,8 +49,14 @@
 #
 
 def f(x):
+
+	'''
+		This function describes the half-life decay profile of 
+		Cobolt-60 '''
+
 	import math
-	return 10*math.e**(math.log(0.5)/5.27 * x)
+	return 10 * math.e **(math.log(0.5)/5.27 * x)
+
 
 
 def radiationExposure(start, stop, step):
