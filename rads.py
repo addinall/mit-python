@@ -1,4 +1,6 @@
 # rads.pl
+# vim: set expandtab tabstop=4 shiftwidth=4 autoindent smartindent:
+#
 # Mark Addinall - Sept 2015
 # MIT Computer Science - Python
 #
@@ -50,29 +52,101 @@
 
 def f(x):
 
-	'''
-		This function describes the half-life decay profile of 
-		Cobolt-60 '''
+    '''
+        This function describes the half-life decay profile of 
+        Cobolt-60 '''
 
-	import math
-	return 10 * math.e **(math.log(0.5)/5.27 * x)
+    import math
+    return 10 * math.e **(math.log(0.5)/5.27 * x)
 
 
 
 def radiationExposure(start, stop, step):
+   
     '''
-    	Computes and returns the amount of radiation exposed
-    	to between the start and stop times. Calls the 
-        function f (defined for you in the grading script)
-    	to obtain the value of the function at any point.
-     
-        start: integer, the time at which exposure begins
-    	stop: integer, the time at which exposure ends
-        step: float, the width of each rectangle. You can assume that
-      	the step size will always partition the space evenly.
+    Computes and returns the amount of radiation exposed
+    to between the start and stop times. Calls the 
+    function f (defined for you in the grading script)
+    to obtain the value of the function at any point.
+ 
+    start: integer, the time at which exposure begins
+    stop: integer, the time at which exposure ends
+    step: float, the width of each rectangle. You can assume that
+    the step size will always partition the space evenly.
 
-        returns: float, the amount of radiation exposed to 
-        between start and stop times.  '''
+    returns: float, the amount of radiation exposed to 
+    between start and stop times.  '''
 
+    testing = True                              # for me to debug!
 
+    # OK, what we are doing here is using the Riemann Integral
+    # to calculate the radiation dose received as a function
+    # of the area under the curve of the half-life decay of
+    # the isotope as described in the function f()
 
+    exposure    = 0
+    periods     = int((stop - start) / step)    # step gives us the widths of our
+                                                # rectangles under the curve,
+                                                # thinner the rectangles, greater 
+                                                # the accuracy
+                                                # of the approximation of the integral
+    for x in range(periods):
+        exposure += f(start + x * step) * step
+
+    if testing:
+        print("f(start)    == " + str(f(start)))
+        print("f(stop)     == " + str(f(stop)))
+        print("step        == " + str(step))
+        print("periods     == " + str(periods))
+        print("exposure    == " + str(exposure))
+
+    return exposure
+
+    print("--------------------------------------")
+
+# Test as per MIT supplied test cases
+
+print radiationExposure(0, 5, 1)
+# 39.10318784326239
+
+print radiationExposure(5, 11, 1)
+# 22.94241041057671
+
+print radiationExposure(0, 11, 1)
+# 62.0455982538
+
+print radiationExposure(40, 100, 1.5)
+# 0.434612356115
+
+'''ma
+CORRECT
+Function call: radiationExposure(0, 5, 1)
+Cobalt-60.Half-life: 5.27 years. Initial Activity: 10 MBq.
+Find total exposure from years 0 - 5.
+Output:
+39.10318784326239
+
+Function call: radiationExposure(5, 11, 1)
+Cobalt-60.Half-life: 5.27 years. Initial Activity: 10 MBq.
+Find total exposure from years 5 - 11.
+Output:
+22.94241041057671
+
+Function call: radiationExposure(12, 16, 1)
+Cobalt-60.Half-life: 5.27 years. Initial Activity: 10 MBq.
+Find total exposure from years 12 - 16.
+Output:
+6.848645835538622
+
+Function call: radiationExposure(0, 4, 0.25)
+Radium-224.Half-life: 3.66 days. Initial Activity: 400 MBq.
+Find total exposure from days 0 - 4.
+Output:
+1148.6783342153556
+
+Function call: radiationExposure(5, 10, 0.25)
+Radium-224.Half-life: 3.66 days. Initial Activity: 400 MBq.
+Find total exposure from days 5 - 10.
+Output:
+513.4662018628549
+'''
