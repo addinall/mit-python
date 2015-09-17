@@ -165,7 +165,6 @@ def hangman(secretWord):
 
     '''
 
-    # print(secretWord)
     print("Welcome to the game Hangman!")
     print("I am thinking of a word that is " + str(len(secretWord)) + " characters long")
     print("---------------")
