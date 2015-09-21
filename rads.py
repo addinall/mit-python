@@ -1,4 +1,4 @@
-# rads.pl
+# rads.py
 # vim: set expandtab tabstop=4 shiftwidth=4 autoindent smartindent:
 #
 # Mark Addinall - Sept 2015
@@ -54,7 +54,7 @@ def f(x):
 
     '''
         This function describes the half-life decay profile of 
-        Cobolt-60 '''
+        Cobalt-60 '''
 
     import math
     return 10 * math.e **(math.log(0.5)/5.27 * x)
