@@ -1,12 +1,16 @@
-#  game1.py
+#  game2.py
 #  vim: set expandtab tabstop=4 shiftwidth=4 autoindent smartindent:
 #  Mark Addinall - September 2015
 #  MIT Computer Science - Python
 # 
 # INTRODUCTION - A WORD GAME
 # 
-# 
-# 
+# This is essentially the same as game1.py, with one significant difference. 
+# Instead of the human playing the game, we program the computer to do so
+# as well.  We give the player a choice of human or machine play.  That
+# way the hooman can pit skill against a brute force algorithm
+# which is a pretty bloody hard ask.
+#
 # This game is a lot like Scrabble or Words With Friends, if you've played those. Letters are dealt to players, who then construct one or more words out of their letters. Each valid word receives a score, based on the length of the word and the letters in that word.
 # 
 # The rules of the game are as follows:
@@ -332,7 +336,96 @@ def playHand(hand, wordList, n):
         msg = 'Run out of letters. '                # hand exit status
 
     print(msg + 'Total score: ' + str(score) + ' points.')
+
+
 #
+
+
+def compChooseWord(hand, wordList, n):
+    """
+    Given a hand and a wordList, find the word that gives 
+    the maximum value score, and return it.
+
+    This word should be calculated by considering all the words
+    in the wordList.
+
+    If no words in the wordList can be made from the hand, return None.
+
+    hand: dictionary (string -> int)
+    wordList: list (string)
+    n: integer (HAND_SIZE; i.e., hand size required for additional points)
+
+    returns: string or None
+    """
+    highest_score = 0                   # Create a new variable to store the maximum 
+                                        # score seen so far (initially 0)
+    best_word = None                    # Create a new variable to store the best word 
+                                        # seen so far (initially None)  
+
+    for word in wordList:                       # For each word in the wordList
+        if isValidWord(word, hand, wordList):   # If you can construct the word from the hand
+            score = getWordScore(word, n)       # Find out how much making that word is worth
+            if score > highest_score:           # If the score for that word is higher than 
+                                                # the best score
+                highest_score = score           # Update the best score,
+                best_word = word                # and best word accordingly
+
+    return best_word                    # return the best word found.
+
+
+
+
+
+
+#
+def compPlayHand(hand, wordList, n):
+    """
+    Allows the computer to play the given hand, following the same procedure
+    as playHand, except instead of the user choosing a word, the computer 
+    chooses it.
+
+    1) The hand is displayed.
+    2) The computer chooses a word.
+    3) After every valid word: the word and the score for that word is 
+    displayed, the remaining letters in the hand are displayed, and the 
+    computer chooses another word.
+    4)  The sum of the word scores is displayed when the hand finishes.
+    5)  The hand finishes when the computer has exhausted its possible
+    choices (i.e. compChooseWord returns None).
+ 
+    hand: dictionary (string -> int)
+    wordList: list (string)
+    n: integer (HAND_SIZE; i.e., hand size required for additional points)
+    """
+
+    score = 0                                       # Keep track of the total score
+    cards_left = calculateHandlen(hand)             # dope initial hand size
+
+    while cards_left > 0:                           # As long as there are still letters 
+                                                    # left in the hand:
+        print('Current Hand: '),                    # display title
+        displayHand(hand)                           # Display the hand
+        word = compChooseWord(hand, wordList, n)    # computer fetches best word so far
+        if word == None:                            # If the input is a single period:
+            break                                   # End the game (break out of the loop)
+        else:                                       # Otherwise 
+            wscore = getWordScore(word, n)          # get the score for the word
+            score += wscore                         # update the total
+            print('"'+word+'"'+" earned "),         # Display how many points the word earned, 
+            print(str(wscore)+" points. "),         # and the updated total score, in one line 
+            print("Total: "+str(score)),
+            print(" points")
+            print                                   # followed by a blank line
+            hand = updateHand(hand, word)           # Update the hand 
+            cards_left = calculateHandlen(hand)     # dope resultant hand size
+                                                    # this can end the hand when
+                                                    # cards left becomes zero
+
+    print('Total score: ' + str(score) + ' points.')
+
+
+
+
 # 
 
 def playGame(wordList):
@@ -340,12 +433,25 @@ def playGame(wordList):
     Allow the user to play an arbitrary number of hands.
 
     1) Asks the user to input 'n' or 'r' or 'e'.
-      * If the user inputs 'n', let the user play a new (random) hand.
-      * If the user inputs 'r', let the user play the last hand again.
-      * If the user inputs 'e', exit the game.
-      * If the user inputs anything else, tell them their input was invalid.
- 
-    2) When done playing the hand, repeat from step 1    
+       * If the user inputs 'e', immediately exit the game.
+       * If the user inputs anything that's not 'n', 'r', or 'e', keep asking them again.
+
+    2) Asks the user to input a 'u' or a 'c'.
+       * If the user inputs anything that's not 'c' or 'u', keep asking them again.
+
+    3) Switch functionality based on the above choices:
+       * If the user inputted 'n', play a new (random) hand.
+       * Else, if the user inputted 'r', play the last hand again.
+                               
+       * If the user inputted 'u', let the user play the game
+         with the selected hand, using playHand.
+       * If the user inputted 'c', let the computer play the 
+         game with the selected hand, using compPlayHand.
+
+    4) After the computer or user has played the hand, repeat from step 1
+
+    wordList: list (string)
+
     """
 
     finished = False                                # just the game controller
@@ -380,5 +486,10 @@ def playGame(wordList):
 #
 if __name__ == '__main__':
     wordList = loadWords()
-    playGame(wordList)
+#    playGame(wordList)
+
+
+compPlayHand({'a': 1, 'p': 2, 's': 1, 'e': 1, 'l': 1}, wordList, 6)
+compPlayHand({'a': 2, 'c': 1, 'b': 1, 't': 1}, wordList, 5)
+compPlayHand({'a': 2, 'e': 2, 'i': 2, 'm': 2, 'n': 2, 't': 2}, wordList, 12)
 

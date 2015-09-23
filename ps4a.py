@@ -344,10 +344,32 @@ def playGame(wordList):
  
     2) When done playing the hand, repeat from step 1    
     """
-    playHand({'h':1, 'i':1, 'c':1, 'z':1, 'm':2, 'a':1}, wordList, 7)
-    playHand({'w':1, 's':1, 't':2, 'a':1, 'o':1, 'f':1}, wordList, 7)
 
+    finished = False                                # just the game controller
+    last_hand = {}                                  # empty set to save the soon to be current game
+    while not finished:                             # loop forever
+        ch = ''                                     # empty the input character
+        while ch not in ['n','r','e']:              # (n)ew, (r)replay, (e)nd
+            ch = raw_input("Enter n to deal a new hand, r to replay the last hand, or e to end game: ")
+            if ch == 'r':                           # wants to replay eh?
+                if last_hand == {}:                 # can't, haven't played yet
+                    print("You have not played a hand yet.  Please play a new hand first!")
+                    ch = ''                         # reset input character
+                    print                           # output blank line and try again
+                else:
+                    hand = last_hand.copy()         # let them play THIS game again
+            elif ch == 'e':
+                finished = True                     # wants to quit
+            elif ch == 'n':
+                hand = dealHand(HAND_SIZE)          # new game, get a hand
+            else:
+                print("Invalid command.")           # dumb keypress, try again
 
+        if not finished:
+            playHand(hand, wordList, HAND_SIZE)     # play the hand out
+            last_hand = hand.copy()                 # and save the game in case the player
+                                                    # wants to have another shot with the
+                                                    # same cards
 
 
 #
@@ -356,3 +378,4 @@ def playGame(wordList):
 if __name__ == '__main__':
     wordList = loadWords()
     playGame(wordList)
+
