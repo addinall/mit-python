@@ -121,12 +121,6 @@ def getFrequencyDict(sequence):
     return freq
 	
 
-def getWord():
-    valid = False
-    word = raw_input('Enter word, or a "." to indicate you are finished: ')
-    return word
-
-
 def getWordScore(word, n):
     """
     Returns the score for a word. Assumes the word is a valid word.
@@ -277,6 +271,8 @@ def calculateHandlen(hand):
     return cards                            # send back the hand size`
 
 
+
+
 def playHand(hand, wordList, n):
     """
     Allows the user to play the given hand, as follows:
@@ -299,31 +295,40 @@ def playHand(hand, wordList, n):
       n: integer (HAND_SIZE; i.e., hand size required for additional points)
       
     """
-    score = 0                               # Keep track of the total score
-    cards_left = calculateHandLen(hand)     # dope initial hand size
+    score = 0                                       # Keep track of the total score
+    cards_left = calculateHandlen(hand)             # dope initial hand size
 
-    while cards_left > 0:                   # As long as there are still letters 
-                                            # left in the hand:
-        displayHand(hand)                   # Display the hand
-        word = getWord()                    # Ask user for input
-        if word == '.':                     # If the input is a single period:
-            break                           # End the game (break out of the loop)
-        else:                               # Otherwise (the input is not a single period):
+    while cards_left > 0:                           # As long as there are still letters 
+                                                    # left in the hand:
+        print('Current Hand: '),                    # display title
+        displayHand(hand)                           # Display the hand
+        word = raw_input('Enter word, or a "." to indicate that you are finished: ')
+        if word == '.':                             # If the input is a single period:
+            break                                   # End the game (break out of the loop)
+        else:                                       # Otherwise (the input is not a single period):
             if not isValidWord(word, hand, wordList):           
-                                            # If the word is not valid:
-                print("invalid word, please try again")
-                                            # Reject invalid word (print a message 
-                print                       # followed by a blank line)
-            else:                           # Otherwise (the word is valid):
-                                            # Tell the user how many points the word earned, 
-                                            # and the updated total score, in one line 
-                                            # followed by a blank line
-                # Update the hand 
-                
+                                                    # If the word is not valid:
+                print("Invalid word, please try again")
+                                                    # Reject invalid word (print a message 
+                print                               # followed by a blank line)
+            else:                                   # Otherwise (the word is valid):
+                wscore = getWordScore(word, n)      # get the score for the word
+                score += wscore                     # update the total
+                print('"'+word+'"'+" earned "),     # Tell the user how many points the word earned, 
+                print(str(wscore)+" points. "),     # and the updated total score, in one line 
+                print("Total: "+str(score)),
+                print(" points")
+                print                               # followed by a blank line
+                hand = updateHand(hand, word)       # Update the hand 
+                cards_left = calculateHandlen(hand) # dope resultant hand size
+                                                    # this can end the hand when
+                                                    # cards left becomes zero
+    if word == '.':                                 # Game is over (user entered a '.' or ran out of letters), 
+        msg = 'Goodbye! '                           # so tell user the total score
+    else:                                           # slightly different message based on
+        msg = 'Run out of letters. '                # hand exit status
 
-    # Game is over (user entered a '.' or ran out of letters), so tell user the total score
-
-
+    print(msg + 'Total score: ' + str(score) + ' points.')
 #
 # 
 
@@ -339,9 +344,9 @@ def playGame(wordList):
  
     2) When done playing the hand, repeat from step 1    
     """
-    # TO DO ... <-- Remove this comment when you code this function
-    print "playGame not yet implemented." # <-- Remove this line when you code the function
-   
+    playHand({'h':1, 'i':1, 'c':1, 'z':1, 'm':2, 'a':1}, wordList, 7)
+    playHand({'w':1, 's':1, 't':2, 'a':1, 'o':1, 'f':1}, wordList, 7)
+
 
 
 
