@@ -93,6 +93,10 @@ SCRABBLE_LETTER_VALUES = {
 
 WORDLIST_FILENAME = "words.txt"
 
+
+
+#
+#--------------
 def loadWords():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
@@ -111,7 +115,8 @@ def loadWords():
     return wordList                             # send it into the game
 
 
-
+#
+#------------------------------
 def getFrequencyDict(sequence):
     """
     Returns a dictionary where the keys are elements of the sequence
@@ -128,6 +133,9 @@ def getFrequencyDict(sequence):
     return freq
 	
 
+
+#
+#-------------------------
 def getWordScore(word, n):
     """
     Returns the score for a word. Assumes the word is a valid word.
@@ -157,8 +165,10 @@ def getWordScore(word, n):
 
     return score                                # and send it back to caller
 
+
+
 #
-#
+#---------------------
 def displayHand(hand):
     """
     Displays the letters currently in the hand.
@@ -176,8 +186,10 @@ def displayHand(hand):
              print letter,              # print all on the same line
     print                               # print an empty line
 
+
+
 #
-#
+#--------------
 def dealHand(n):
     """
     Returns a random hand containing n lowercase letters.
@@ -203,8 +215,10 @@ def dealHand(n):
         
     return hand
 
+
+
 #
-#
+#--------------------------
 def updateHand(hand, word):
     """
     Assumes that 'hand' has all the letters in word.
@@ -230,8 +244,11 @@ def updateHand(hand, word):
     return new_hand                     # and return the new dictionary
 
 
+
+
+
 #
-#
+#------------------------------------
 def isValidWord(word, hand, wordList):
     """
     Returns True if word is in the wordList and is entirely
@@ -260,10 +277,11 @@ def isValidWord(word, hand, wordList):
 
     return valid                            # and return validity of the word`
 
-#
-# Problem #4: Playing a hand
-#
 
+
+
+#
+#-------------------------
 def calculateHandlen(hand):
     """ 
     Returns the length (number of letters) in the current hand.
@@ -279,7 +297,8 @@ def calculateHandlen(hand):
 
 
 
-
+#
+#-------------------------------
 def playHand(hand, wordList, n):
     """
     Allows the user to play the given hand, as follows:
@@ -338,9 +357,9 @@ def playHand(hand, wordList, n):
     print(msg + 'Total score: ' + str(score) + ' points.')
 
 
+
 #
-
-
+#-------------------------------------
 def compChooseWord(hand, wordList, n):
     """
     Given a hand and a wordList, find the word that gives 
@@ -376,8 +395,8 @@ def compChooseWord(hand, wordList, n):
 
 
 
-
 #
+#----------------------------------
 def compPlayHand(hand, wordList, n):
     """
     Allows the computer to play the given hand, following the same procedure
@@ -427,7 +446,7 @@ def compPlayHand(hand, wordList, n):
 
 
 # 
-
+#---------------------
 def playGame(wordList):
     """
     Allow the user to play an arbitrary number of hands.
@@ -475,7 +494,16 @@ def playGame(wordList):
                 print("Invalid command.")           # dumb keypress, try again
 
         if not finished:
-            playHand(hand, wordList, HAND_SIZE)     # play the hand out
+            ch = ''                                 # empty the input character
+            while ch not in ['u','c']:              # user or computer
+                ch = raw_input("Enter u to have yourself play, c to have the computer play: ")
+                if ch not in ['u','c']:
+                    print("Invalid command")
+
+            if ch == 'u':                           # people game    
+                playHand(hand, wordList, HAND_SIZE)
+            else:                                   # machine game
+                compPlayHand(hand, wordList, HAND_SIZE)
             last_hand = hand.copy()                 # and save the game in case the player
                                                     # wants to have another shot with the
                                                     # same cards
@@ -486,10 +514,6 @@ def playGame(wordList):
 #
 if __name__ == '__main__':
     wordList = loadWords()
-#    playGame(wordList)
-
-
-compPlayHand({'a': 1, 'p': 2, 's': 1, 'e': 1, 'l': 1}, wordList, 6)
-compPlayHand({'a': 2, 'c': 1, 'b': 1, 't': 1}, wordList, 5)
-compPlayHand({'a': 2, 'e': 2, 'i': 2, 'm': 2, 'n': 2, 't': 2}, wordList, 12)
+    playGame(wordList)
+#-----EOF------------------------------
 
